@@ -1,0 +1,11 @@
+.next
+.vinext
+.openai
+dist
+node_modules
+*.log
+.DS_Store
+work/
+outputs/
+.env.local
+.vercel
