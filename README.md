@@ -20,7 +20,29 @@ NEXT_PUBLIC_SHOPIFY_API_VERSION=2026-07
 
 When those values are present, the storefront automatically displays active
 Shopify products and sends the satchel to Shopify's hosted secure checkout.
-Without them, it displays the curated fallback catalog.
+If Shopify is unavailable or no products are published, the storefront shows
+an honest empty state and never substitutes fictional inventory.
+
+The homepage also links the current Substack field notes using their canonical
+post URLs and embeds Substack's official subscription form.
+
+## Organizing the catalogue
+
+The complete Shopify catalogue lives at `/shop`. Product types populate the
+category filter automatically. Add the following Shopify product tags to make
+the remaining filters work without changing the site code:
+
+- `author:Author Name`
+- `genre:Genre Name`
+- `realm:magical` or `realm:mundane`
+
+For books without an `author:` tag, the Shopify vendor is used as the author.
+Plain `magical` and `mundane` tags are also recognized. Products are never
+invented or filled in when Shopify data is unavailable.
+
+For the owner-only Sites review host, `npm run build:sites` packages the
+statically generated storefront with a minimal asset worker. Shopify catalog
+and cart requests continue to run securely in the visitor's browser.
 
 ## Vercel
 

@@ -14,9 +14,18 @@ const sans = DM_Sans({
 });
 
 export const metadata = {
-  title: "Wandering Wizard Wares | Curios for the Curious",
+  metadataBase: new URL("https://www.wanderingwizardwares.com"),
+  title: "Wandering Wizard Wares | Books, Curios, Oddities & Ephemera",
   description:
-    "Small-batch magical goods, gathered on the road and made for curious folk.",
+    "A menagerie of the magical and the mundane: books, curios, oddities, and ephemera curated by the Wandering Wizard.",
+  openGraph: {
+    title: "Wandering Wizard Wares",
+    description:
+      "Books, curios, oddities, and ephemera—magically resonant or beautifully mundane.",
+    url: "https://www.wanderingwizardwares.com",
+    siteName: "Wandering Wizard Wares",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
