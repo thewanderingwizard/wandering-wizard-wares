@@ -417,9 +417,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className="footer-bottom footer-bottom-home">
           <span>© 2026 Wandering Wizard Wares</span>
-          <span>Made with road dust &amp; starlight</span>
+          <span className="footer-motto">Solo Deo Gloria</span>
           <span>
             <a href={`${SHOPIFY_POLICY_BASE}/privacy-policy`}>Privacy</a>
             <a href={`${SHOPIFY_POLICY_BASE}/terms-of-service`}>Terms</a>
