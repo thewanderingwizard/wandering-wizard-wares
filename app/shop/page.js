@@ -26,6 +26,7 @@ import {
 
 const CART_STORAGE_KEY = "wandering-wizard-wares-cart-v1";
 const INSTAGRAM_URL = "https://www.instagram.com/justawanderingwizard/";
+const YOUTUBE_URL = "https://www.youtube.com/@justawanderingwizard";
 const SHOPIFY_POLICY_BASE =
   "https://wandering-wizard-wares.myshopify.com/policies";
 const WIZARD_WEAR_CATEGORY = "Wizard Wear";
@@ -345,6 +346,7 @@ export default function Shop() {
           <Link href="/#story">About the Wizard</Link>
           <Link href="/#journal">Field notes</Link>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
+          <a href={YOUTUBE_URL} target="_blank" rel="noreferrer">YouTube</a>
         </nav>
         <div className="header-actions">
           <button
@@ -487,7 +489,7 @@ export default function Shop() {
 
       <aside className={`mobile-menu ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <div className="drawer-head"><Mark /><button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X /></button></div>
-        <nav><Link href="/" onClick={() => setMenuOpen(false)}>The road home <span>01</span></Link><Link href="/#story" onClick={() => setMenuOpen(false)}>About the Wizard <span>02</span></Link><Link href="/#journal" onClick={() => setMenuOpen(false)}>Field notes <span>03</span></Link><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram <span>04</span></a></nav>
+        <nav><Link href="/" onClick={() => setMenuOpen(false)}>The road home <span>01</span></Link><Link href="/#story" onClick={() => setMenuOpen(false)}>About the Wizard <span>02</span></Link><Link href="/#journal" onClick={() => setMenuOpen(false)}>Field notes <span>03</span></Link><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram <span>04</span></a><a href={YOUTUBE_URL} target="_blank" rel="noreferrer">YouTube <span>05</span></a></nav>
       </aside>
 
       <div className={`toast ${toast ? "show" : ""}`} role="status"><Check size={16} /> {toast}</div>
