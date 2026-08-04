@@ -419,7 +419,14 @@ export default function Home() {
         </div>
         <div className="footer-bottom footer-bottom-home">
           <span>© 2026 Wandering Wizard Wares</span>
-          <span className="footer-motto">Solo Deo Gloria</span>
+          <span className="footer-motto">
+            <img
+              src="/images/brand/solo-deo-gloria-blackletter.png"
+              alt="Solo Deo Gloria"
+              width="763"
+              height="519"
+            />
+          </span>
           <span>
             <a href={`${SHOPIFY_POLICY_BASE}/privacy-policy`}>Privacy</a>
             <a href={`${SHOPIFY_POLICY_BASE}/terms-of-service`}>Terms</a>

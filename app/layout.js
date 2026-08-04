@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, DM_Sans, UnifrakturCook } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -11,12 +11,6 @@ const sans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
-});
-
-const blackletter = UnifrakturCook({
-  subsets: ["latin"],
-  variable: "--font-blackletter",
-  weight: "700",
 });
 
 export const metadata = {
@@ -37,7 +31,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${sans.variable} ${blackletter.variable}`}>
+      <body className={`${display.variable} ${sans.variable}`}>
         {children}
       </body>
     </html>
