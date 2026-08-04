@@ -23,6 +23,7 @@ import {
 
 const CART_STORAGE_KEY = "wandering-wizard-wares-cart-v1";
 const INSTAGRAM_URL = "https://www.instagram.com/justawanderingwizard/";
+const YOUTUBE_URL = "https://www.youtube.com/@justawanderingwizard";
 const SUBSTACK_URL = "https://justawanderingwizard.substack.com/";
 const SUBSTACK_ARTICLES = [
   {
@@ -156,6 +157,9 @@ export default function Home() {
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
             Instagram
           </a>
+          <a href={YOUTUBE_URL} target="_blank" rel="noreferrer">
+            YouTube
+          </a>
         </nav>
 
         <div className="header-actions">
@@ -247,9 +251,8 @@ export default function Home() {
             <em>await.</em>
           </h2>
           <p>
-            Enter the shop to explore the full Shopify catalogue—organized by
-            author, genre, Wizard Wear, and whether each finding is magical or
-            mundane.
+            Enter the tower and peruse the wizard&apos;s wares, all gathered while
+            wandering the world.
           </p>
           <div className="portal-taxonomy" aria-label="Shop categories">
             <span>Books</span><span>Curios</span><span>Magical</span><span>Mundane</span><span>Wizard Wear</span>
@@ -506,6 +509,7 @@ export default function Home() {
           <a href="#journal" onClick={() => setMenuOpen(false)}>Field notes <span>03</span></a>
           <a href="#events" onClick={() => setMenuOpen(false)}>The route ahead <span>04</span></a>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Instagram <span>05</span></a>
+          <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>YouTube <span>06</span></a>
         </nav>
       </aside>
 
