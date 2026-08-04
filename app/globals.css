@@ -1169,6 +1169,22 @@ footer {
 .footer-links a:hover { color: var(--gold-light); }
 .footer-bottom { padding-top: 22px; display: flex; justify-content: space-between; border-top: 1px solid rgba(241,235,223,.12); color: rgba(241,235,223,.35); font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
 .footer-bottom span:last-child { display: flex; gap: 20px; }
+.footer-bottom-home {
+  padding-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+.footer-bottom-home > span:last-child { justify-self: end; }
+.footer-motto {
+  color: rgba(241,235,223,.88);
+  font-family: var(--font-blackletter), "Old English Text MT", serif;
+  font-size: clamp(36px, 3.25vw, 52px);
+  line-height: .9;
+  letter-spacing: .015em;
+  text-transform: none;
+  white-space: nowrap;
+}
 .footer-signature {
   margin-top: 42px;
   padding: 42px 0 12px;
@@ -1381,7 +1397,10 @@ footer {
   .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 42px; }
   .footer-links > div:last-child { grid-column: 1 / -1; }
   .footer-bottom { align-items: start; flex-direction: column; gap: 12px; }
-  .footer-bottom > span:nth-child(2) { display: none; }
+  .footer-bottom:not(.footer-bottom-home) > span:nth-child(2) { display: none; }
+  .footer-bottom-home { grid-template-columns: 1fr; align-items: center; text-align: center; gap: 18px; }
+  .footer-bottom-home > span:last-child { justify-self: auto; }
+  .footer-motto { font-size: clamp(32px, 10vw, 46px); }
   .toast { left: 16px; right: 16px; bottom: 16px; justify-content: center; }
   .shop-hero {
     min-height: 390px;
