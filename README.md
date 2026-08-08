@@ -19,7 +19,10 @@ NEXT_PUBLIC_SHOPIFY_API_VERSION=2026-07
 ```
 
 When those values are present, the storefront automatically displays active
-Shopify products and sends the satchel to Shopify's hosted secure checkout.
+Shopify products. Catalogue cards open complete product pages with every
+photograph, rich description, tag, option, variant, price, SKU, and availability
+state. The selected variant and quantity are then sent to Shopify's hosted
+secure checkout.
 If Shopify is unavailable or no products are published, the storefront shows
 an honest empty state and never substitutes fictional inventory.
 

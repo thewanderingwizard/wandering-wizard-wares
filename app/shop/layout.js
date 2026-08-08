@@ -1,3 +1,5 @@
+import ShopShell from "./components/ShopShell";
+
 export const metadata = {
   title: "Peruse the Wares | Wandering Wizard Wares",
   description:
@@ -5,5 +7,5 @@ export const metadata = {
 };
 
 export default function ShopLayout({ children }) {
-  return children;
+  return <ShopShell>{children}</ShopShell>;
 }
