@@ -966,7 +966,7 @@ h1 em, h2 em { color: var(--gold-light); font-weight: 500; }
   color: var(--cream);
   background:
     linear-gradient(180deg, rgba(43, 32, 14, .66), rgba(43, 32, 14, .82) 72%, rgba(43, 32, 14, .94)),
-    url("/images/editorial/grand-rosicrucian-formula.webp") center / 100% 100% no-repeat,
+    url("/images/editorial/grand-rosicrucian-formula.webp") center top / 100% auto repeat-y,
     #332712;
 }
 .shop-catalog .catalog-intro > p,
