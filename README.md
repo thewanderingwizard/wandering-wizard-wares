@@ -31,17 +31,20 @@ post URLs and embeds Substack's official subscription form.
 
 ## Organizing the catalogue
 
-The complete Shopify catalogue lives at `/shop`. Product types populate the
-category filter automatically. Add the following Shopify product tags to make
-the remaining filters work without changing the site code:
+The complete Shopify catalogue lives at `/shop`. Its category filter is fixed
+to Books, Curios, Oddities, and Ephemera. Set Shopify's Product type to one of
+those values, then add the following Shopify product tags:
 
 - `author:Author Name`
 - `genre:Genre Name`
 - `realm:magical` or `realm:mundane`
 
-For books without an `author:` tag, the Shopify vendor is used as the author.
-Plain `magical` and `mundane` tags are also recognized. Products are never
-invented or filled in when Shopify data is unavailable.
+For books without an `author:` tag, the Shopify vendor is used as the author
+unless it is the shop's own `Wandering Wizard Wares` vendor value. Plain
+`magical` and `mundane` tags are also recognized. Category, author, genre,
+nature, and all remaining Shopify tags are clickable browse links on the custom
+storefront. Products are never invented or filled in when Shopify data is
+unavailable.
 
 For the owner-only Sites review host, `npm run build:sites` packages the
 statically generated storefront with a minimal asset worker. Shopify catalog

@@ -3,21 +3,28 @@
 /* Shopify supplies external product images at runtime. */
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight, BookOpen, MoonStar, Search } from "lucide-react";
 import { isShopifyConfigured, loadShopifyProducts } from "@/lib/shopify";
 import {
+  EXCLUDED_SHOP_GENRES,
   formatMoney,
   mapProductSummary,
+  SHOP_CATEGORIES,
   SHOP_GENRES,
-  WIZARD_WEAR_CATEGORY,
+  shopFilterHref,
 } from "@/lib/catalog";
 
 function ProductCard({ product }) {
   return (
     <article className="product-card">
-      <Link className="product-card-link" href={`/shop/${product.handle}`}>
+      <Link
+        className="product-card-image-link"
+        href={`/shop/${product.handle}`}
+        aria-label={`View the complete listing for ${product.name}`}
+      >
         <div className={`product-art ${product.palette}`}>
           {product.image ? (
             <img
@@ -34,31 +41,55 @@ function ProductCard({ product }) {
           )}
           {product.realm && <span className="product-badge">{product.realm}</span>}
         </div>
-        <div className="product-copy">
-          <div className="product-meta">
-            <span>{product.category}</span>
-            {product.author && <span>{product.author}</span>}
-          </div>
-          <h3>{product.name}</h3>
-          {(product.genres.length > 0 || product.realm) && (
-            <div className="product-facets">
-              {product.genres.map((productGenre) => (
-                <span key={productGenre}>{productGenre}</span>
-              ))}
-              {product.realm && <span>{product.realm}</span>}
-            </div>
-          )}
-          <div className="product-foot">
-            <strong>{formatMoney(product.price, product.currencyCode)}</strong>
-            <span className="quick-add">View full listing <ArrowRight size={15} /></span>
-          </div>
-        </div>
       </Link>
+      <div className="product-copy">
+        <div className="product-meta">
+          <ProductFilterLink filter="category" value={product.category} />
+          {product.author && <ProductFilterLink filter="author" value={product.author} />}
+        </div>
+        <h3>
+          <Link className="product-card-title-link" href={`/shop/${product.handle}`}>
+            {product.name}
+          </Link>
+        </h3>
+        {(product.genres.length > 0 || product.realm) && (
+          <div className="product-facets" aria-label={`Browse tags for ${product.name}`}>
+            {product.genres.map((productGenre) => (
+              <ProductFilterLink key={productGenre} filter="genre" value={productGenre} />
+            ))}
+            {product.realm && <ProductFilterLink filter="realm" value={product.realm} />}
+          </div>
+        )}
+        <div className="product-foot">
+          <strong>{formatMoney(product.price, product.currencyCode)}</strong>
+          <Link className="quick-add" href={`/shop/${product.handle}`}>
+            View full listing <ArrowRight size={15} />
+          </Link>
+        </div>
+      </div>
     </article>
   );
 }
 
+function ProductFilterLink({ filter, value }) {
+  return (
+    <Link className="product-filter-link" href={shopFilterHref(filter, value)}>
+      {value}
+    </Link>
+  );
+}
+
 export default function Shop() {
+  return (
+    <Suspense fallback={<CatalogMessage title="Opening the inventory ledger…" copy="Preparing the complete collection." />}>
+      <ShopContent />
+    </Suspense>
+  );
+}
+
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
   const [catalog, setCatalog] = useState([]);
   const [catalogStatus, setCatalogStatus] = useState(() =>
     isShopifyConfigured() ? "loading" : "unavailable"
@@ -68,23 +99,28 @@ export default function Shop() {
   const [author, setAuthor] = useState("All");
   const [genre, setGenre] = useState("All");
   const [realm, setRealm] = useState("All");
+  const [tag, setTag] = useState("");
 
   const facets = useMemo(
     () => ({
-      categories: [
-        ...new Set([
-          ...catalog.map((product) => product.category).filter(Boolean),
-          WIZARD_WEAR_CATEGORY,
-        ]),
-      ].sort(),
-      authors: [...new Set(catalog.map((product) => product.author).filter(Boolean))].sort(),
+      categories: SHOP_CATEGORIES,
+      authors: [...new Set(catalog.map((product) => product.author).filter(Boolean))]
+        .sort((first, second) => first.localeCompare(second)),
       genres: [
         ...new Set([
           ...SHOP_GENRES,
           ...catalog.flatMap((product) => product.genres),
         ]),
-      ].sort(),
-      realms: [...new Set(catalog.map((product) => product.realm).filter(Boolean))].sort(),
+      ]
+        .filter(
+          (entry) =>
+            !EXCLUDED_SHOP_GENRES.some(
+              (excluded) => excluded.toLowerCase() === entry.toLowerCase()
+            )
+        )
+        .sort((first, second) => first.localeCompare(second)),
+      realms: [...new Set(catalog.map((product) => product.realm).filter(Boolean))]
+        .sort((first, second) => first.localeCompare(second)),
     }),
     [catalog]
   );
@@ -108,13 +144,23 @@ export default function Shop() {
         (category === "All" || product.category === category) &&
         (author === "All" || product.author === author) &&
         (genre === "All" || product.genres.includes(genre)) &&
-        (realm === "All" || product.realm === realm)
+        (realm === "All" || product.realm === realm) &&
+        (!tag || product.tags.some((productTag) => productTag.toLowerCase() === tag.toLowerCase()))
       );
     });
-  }, [author, catalog, category, genre, query, realm]);
+  }, [author, catalog, category, genre, query, realm, tag]);
 
   const hasFilters =
-    Boolean(query) || [category, author, genre, realm].some((value) => value !== "All");
+    Boolean(query || tag) || [category, author, genre, realm].some((value) => value !== "All");
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+    setCategory(searchParams.get("category") || "All");
+    setAuthor(searchParams.get("author") || "All");
+    setGenre(searchParams.get("genre") || "All");
+    setRealm(searchParams.get("realm") || "All");
+    setTag(searchParams.get("tag") || "");
+  }, [searchKey, searchParams]);
 
   useEffect(() => {
     if (!isShopifyConfigured()) return;
@@ -132,6 +178,7 @@ export default function Shop() {
     setAuthor("All");
     setGenre("All");
     setRealm("All");
+    setTag("");
   }
 
   return (
@@ -141,8 +188,7 @@ export default function Shop() {
           <p className="eyebrow">ENTER THE SHOP</p>
           <h1>Peruse the <em>wares.</em></h1>
           <p>
-            All the wizard&apos;s wares: Books, curios, oddities, ephemera and
-            wizard wear.
+            All the wizard&apos;s wares: books, curios, oddities, and ephemera.
           </p>
         </div>
       </section>
@@ -170,10 +216,10 @@ export default function Shop() {
               placeholder="Search title, author, genre…"
             />
           </label>
-          <FilterSelect label="Category" value={category} values={facets.categories} onChange={setCategory} />
-          <FilterSelect label="Author" value={author} values={facets.authors} onChange={setAuthor} />
-          <FilterSelect label="Genre" value={genre} values={facets.genres} onChange={setGenre} />
-          <FilterSelect label="Nature" value={realm} values={facets.realms} onChange={setRealm} />
+          <FilterSelect label="Category" value={category} values={facets.categories} onChange={(value) => { setTag(""); setCategory(value); }} />
+          <FilterSelect label="Author" value={author} values={facets.authors} onChange={(value) => { setTag(""); setAuthor(value); }} />
+          <FilterSelect label="Genre" value={genre} values={facets.genres} onChange={(value) => { setTag(""); setGenre(value); }} />
+          <FilterSelect label="Nature" value={realm} values={facets.realms} onChange={(value) => { setTag(""); setRealm(value); }} />
         </div>
 
         <div className="genre-shortcuts" aria-label="Browse by genre">
@@ -185,7 +231,7 @@ export default function Shop() {
                 type="button"
                 key={shopGenre}
                 aria-pressed={genre === shopGenre}
-                onClick={() => setGenre(genre === shopGenre ? "All" : shopGenre)}
+                onClick={() => { setTag(""); setGenre(genre === shopGenre ? "All" : shopGenre); }}
               >
                 {shopGenre}
               </button>
@@ -194,7 +240,10 @@ export default function Shop() {
         </div>
 
         <div className="catalog-status-line">
-          <span>{visibleProducts.length} {visibleProducts.length === 1 ? "curio" : "curios"} found</span>
+          <span>
+            {visibleProducts.length} {visibleProducts.length === 1 ? "curio" : "curios"} found
+            {tag ? ` · Shopify tag: ${tag}` : ""}
+          </span>
           {hasFilters && <button onClick={clearFilters}>Clear all filters</button>}
         </div>
 

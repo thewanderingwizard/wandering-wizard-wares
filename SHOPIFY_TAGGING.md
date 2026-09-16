@@ -41,55 +41,63 @@ organization in tags so it also appears in the storefront's filters and
 
 Add one or more `Genre:` tags. A product may belong to several genres.
 
+- `Genre: Alchemy`
 - `Genre: Art`
+- `Genre: Arthurian`
 - `Genre: Biography`
-- `Genre: Ephemera`
+- `Genre: Conspiracy`
+- `Genre: Eastern Wisdom`
 - `Genre: Encyclopedias`
+- `Genre: Ephemera`
 - `Genre: Esoterica`
 - `Genre: Fantasy`
 - `Genre: Fiction`
 - `Genre: Folklore`
-- `Genre: Mythology`
+- `Genre: Graphic Novels`
+- `Genre: Hermeticism`
 - `Genre: History`
 - `Genre: Horror`
+- `Genre: Limited Editions`
+- `Genre: Magic`
+- `Genre: Metaphysical`
+- `Genre: Mystery`
+- `Genre: Mythology`
+- `Genre: Natural Magic`
 - `Genre: Nature`
-- `Genre: Natural History`
+- `Genre: New Age`
 - `Genre: Oddities`
 - `Genre: Philosophy`
-- `Genre: Metaphysical`
+- `Genre: Picture Books`
 - `Genre: Poetry`
 - `Genre: Rare Books`
 - `Genre: Religion`
-- `Genre: Spirituality`
+- `Genre: Rosicrucianism`
+- `Genre: Science`
 - `Genre: Science Fiction`
+- `Genre: Self-Help`
+- `Genre: Shamanism`
+- `Genre: Spirituality`
+- `Genre: Wicca`
+- `Genre: Witchcraft`
 
-New `Genre:` values will automatically join the shop's genre dropdown even if they are not in this starter list.
+New `Genre:` values automatically join the shop's genre dropdown even if they are not in this starter list. `Natural History` is intentionally excluded from the custom storefront.
 
 ## Author
 
-For books, add `Author: Full Name`. When this tag is absent, the shop uses the Shopify vendor as the author.
+For books, add `Author: Full Name`. When this tag is absent, the shop uses the Shopify vendor only when the vendor is not `Wandering Wizard Wares`.
 
 ## Nature
 
 Use either `Realm: Magical` or `Realm: Mundane`. The plain tags `Magical` and `Mundane` also work.
 
-## Wizard Wear
-
-Add any one of these tags to branded merchandise:
-
-- `Wizard Wear`
-- `wizard-wear`
-- `merch`
-
-This automatically places the product in the Wizard Wear category.
-
 ## Product type
 
-Set Shopify's Product type to the customer-facing category, such as `Books`, `Curios`, `Oddities`, or `Ephemera`.
+Set Shopify's Product type to one of the four customer-facing categories: `Books`, `Curios`, `Oddities`, or `Ephemera`. Other product types fall back to `Curios` in the custom storefront.
 
 ## Optional descriptive tags
 
 Any additional tag remains visible on the complete product page. Useful
 examples include `Edition: First`, `Condition: Very Good`, `Signed`,
-`Material: Brass`, or `Era: Victorian`. Only the `Author:`, `Genre:`, and
-`Realm:` prefixes have special filtering behavior.
+`Material: Brass`, or `Era: Victorian`. Every tag is clickable on the full
+listing. `Author:`, `Genre:`, and `Realm:` tags open their dedicated shop
+filter; other tags open an exact Shopify-tag view.

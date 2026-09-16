@@ -22,8 +22,11 @@ import {
 import { loadShopifyProduct } from "@/lib/shopify";
 import {
   createCartItem,
+  EXCLUDED_SHOP_GENRES,
   formatMoney,
   mapProductDetails,
+  shopFilterHref,
+  shopTagHref,
   variantDisplayName,
 } from "@/lib/catalog";
 import { useShop } from "../components/ShopShell";
@@ -189,13 +192,19 @@ export default function ProductDetailsPage() {
 
   const activeImage = product.images[activeImageIndex];
   const variantName = variantDisplayName(selectedVariant);
+  const visibleTags = product.tags.filter(
+    (tag) =>
+      !EXCLUDED_SHOP_GENRES.some(
+        (genre) => tag.toLowerCase() === `genre: ${genre}`.toLowerCase()
+      )
+  );
 
   return (
     <>
       <article className="product-detail-page">
         <div className="product-breadcrumb">
           <Link href="/shop"><ArrowLeft size={15} /> Return to all wares</Link>
-          <span>{product.category}</span>
+          <Link className="product-breadcrumb-category" href={shopFilterHref("category", product.category)}>{product.category}</Link>
         </div>
 
         <div className="product-detail-grid">
@@ -242,11 +251,15 @@ export default function ProductDetailsPage() {
           <section className="product-purchase-panel">
             <p className="eyebrow">A FINDING FROM THE ROAD</p>
             <div className="product-title-meta">
-              <span>{product.category}</span>
-              {product.realm && <span>{product.realm}</span>}
+              <Link href={shopFilterHref("category", product.category)}>{product.category}</Link>
+              {product.realm && <Link href={shopFilterHref("realm", product.realm)}>{product.realm}</Link>}
             </div>
             <h1>{product.name}</h1>
-            {product.author && <p className="product-byline">By {product.author}</p>}
+            {product.author && (
+              <p className="product-byline">
+                By <Link href={shopFilterHref("author", product.author)}>{product.author}</Link>
+              </p>
+            )}
 
             <div className="product-price" aria-live="polite">
               <strong>{formatMoney(selectedVariant.price.amount, selectedVariant.price.currencyCode)}</strong>
@@ -328,18 +341,31 @@ export default function ProductDetailsPage() {
           <aside className="product-ledger" aria-label="Product information">
             <h3>At a glance</h3>
             <dl>
-              <div><dt>Category</dt><dd>{product.category}</dd></div>
-              {product.author && <div><dt>Author</dt><dd>{product.author}</dd></div>}
-              {product.genres.length > 0 && <div><dt>Genre</dt><dd>{product.genres.join(", ")}</dd></div>}
-              {product.realm && <div><dt>Nature</dt><dd>{product.realm}</dd></div>}
+              <div><dt>Category</dt><dd><Link href={shopFilterHref("category", product.category)}>{product.category}</Link></dd></div>
+              {product.author && <div><dt>Author</dt><dd><Link href={shopFilterHref("author", product.author)}>{product.author}</Link></dd></div>}
+              {product.genres.length > 0 && (
+                <div>
+                  <dt>Genre</dt>
+                  <dd className="product-ledger-links">
+                    {product.genres.map((productGenre) => (
+                      <Link key={productGenre} href={shopFilterHref("genre", productGenre)}>{productGenre}</Link>
+                    ))}
+                  </dd>
+                </div>
+              )}
+              {product.realm && <div><dt>Nature</dt><dd><Link href={shopFilterHref("realm", product.realm)}>{product.realm}</Link></dd></div>}
               {product.vendor && <div><dt>Vendor</dt><dd>{product.vendor}</dd></div>}
               {selectedVariant.sku && <div><dt>SKU</dt><dd>{selectedVariant.sku}</dd></div>}
               {variantName && <div><dt>Selection</dt><dd>{variantName}</dd></div>}
             </dl>
-            {product.tags.length > 0 && (
+            {visibleTags.length > 0 && (
               <div className="product-all-tags">
                 <h4>Shopify tags</h4>
-                <div>{product.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                <div>
+                  {visibleTags.map((tag) => (
+                    <Link key={tag} href={shopTagHref(tag)}>{tag}</Link>
+                  ))}
+                </div>
               </div>
             )}
           </aside>
