@@ -1569,15 +1569,19 @@ footer {
   .genre-shortcuts > span { display: block; padding: 0 0 10px; }
   .genre-shortcuts > div {
     display: grid;
-    grid-template-columns: repeat(19, minmax(0, 1fr));
-    gap: 5px;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    gap: 7px;
   }
   .genre-shortcuts button {
+    display: grid;
+    place-items: center;
     min-width: 0;
-    min-height: 40px;
-    padding: 4px 3px;
-    font-size: 7px;
-    line-height: 1.15;
+    min-height: 50px;
+    padding: 7px 5px;
+    font-size: 8px;
+    line-height: 1.25;
+    text-align: center;
+    overflow-wrap: break-word;
   }
 }
 
